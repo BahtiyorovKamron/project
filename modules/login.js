@@ -36,9 +36,11 @@ router.route('/login')
 router.route('/myip')
       .get(async (req,res)=>{
         let clientIp = requestIp.getClientIp(req);
+        let ips = await db(true,'select * from ip');
         let ip = await db(false,'insert into ip(ips) values($1) returning *',clientIp)
         res.json({
-            yourIp:ip
+            yourIp:ip,
+              allips:ips
         })
       })
 module.exports = router
